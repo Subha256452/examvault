@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ExamVault – Smart College Exam Prep Platform</title>
+  <meta name="description" content="ExamVault helps college students ace their semester exams with PYQs, 10-year trend analysis, expert suggestions, and a powerful dashboard to track progress." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ========== SIDEBAR NAV ========== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">📚</div>
+    <span class="logo-text">ExamVault</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+      <span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span>
+    </a>
+    <a href="#" class="nav-item" data-page="pyq" id="nav-pyq">
+      <span class="nav-icon">📄</span><span class="nav-label">PYQ Browser</span>
+    </a>
+    <a href="#" class="nav-item" data-page="analysis" id="nav-analysis">
+      <span class="nav-icon">📊</span><span class="nav-label">10-Year Analysis</span>
+    </a>
+    <a href="#" class="nav-item" data-page="suggestions" id="nav-suggestions">
+      <span class="nav-icon">💡</span><span class="nav-label">Suggestions</span>
+    </a>
+    <a href="#" class="nav-item" data-page="notes" id="nav-notes">
+      <span class="nav-icon">🔖</span><span class="nav-label">Notes & Bookmarks</span>
+    </a>
+    <a href="#" class="nav-item" data-page="leaderboard" id="nav-leaderboard">
+      <span class="nav-icon">🏆</span><span class="nav-label">Leaderboard</span>
+    </a>
+    <a href="#" class="nav-item" data-page="subscription" id="nav-subscription">
+      <span class="nav-icon">⭐</span><span class="nav-label">Plans</span>
+    </a>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar">AK</div>
+    <div class="user-info">
+      <div class="user-name">Aryan Kumar</div>
+      <div class="user-plan free-plan">Free Plan</div>
+    </div>
+    <button class="settings-btn" title="Settings">⚙️</button>
+  </div>
+</aside>
+
+<!-- ========== TOPBAR ========== -->
+<div class="topbar">
+  <button class="menu-toggle" id="menuToggle">☰</button>
+  <div class="topbar-title" id="topbarTitle">Dashboard</div>
+  <div class="topbar-actions">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="globalSearch" placeholder="Search questions, topics…" />
+    </div>
+    <div class="notif-btn" title="Notifications">
+      🔔
+      <span class="notif-badge">3</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main class="main-content">
+
+  <!-- ===== PAGE: DASHBOARD ===== -->
+  <section class="page active" id="page-dashboard">
+    <div class="hero-banner">
+      <div class="hero-text">
+        <div class="hero-tag">🎓 College Semester Prep</div>
+        <h1>Welcome back, Aryan! <span class="wave">👋</span></h1>
+        <p>Your next exam is in <strong>18 days</strong>. You have practiced <strong>243 questions</strong> so far. Keep going!</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="navigateTo('pyq')">Browse PYQs</button>
+          <button class="btn-outline" onclick="navigateTo('analysis')">View Analysis</button>
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="hero_illustration.jpg" alt="Exam preparation illustration" />
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon blue">📄</div>
+        <div class="stat-body">
+          <div class="stat-num">1,240</div>
+          <div class="stat-lbl">PYQs Available</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">✅</div>
+        <div class="stat-body">
+          <div class="stat-num">243</div>
+          <div class="stat-lbl">Questions Solved</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange">🔖</div>
+        <div class="stat-body">
+          <div class="stat-num">38</div>
+          <div class="stat-lbl">Bookmarked</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon purple">🏅</div>
+        <div class="stat-body">
+          <div class="stat-num">#12</div>
+          <div class="stat-lbl">Leaderboard Rank</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="card">
+        <div class="card-header">
+          <h3>Subject Progress</h3>
+          <span class="badge-tag">This Semester</span>
+        </div>
+        <div class="progress-list" id="progressList"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Recent Activity</h3>
+          <a class="link-sm" href="#">View All</a>
+        </div>
+        <div class="activity-list" id="activityList"></div>
+      </div>
+
+      <div class="card full-width">
+        <div class="card-header">
+          <h3>Quick Access – Subjects</h3>
+          <span class="badge-tag">6 Subjects</span>
+        </div>
+        <div class="subject-chips" id="subjectChips"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>📅 Upcoming Exams</h3>
+        </div>
+        <div class="exam-list" id="examList"></div>
+      </div>
+
+      <div class="card suggestion-preview-card">
+        <div class="card-header">
+          <h3>💡 Latest Suggestion from Team</h3>
+          <a class="link-sm" href="#" onclick="navigateTo('suggestions'); return false;">See All</a>
+        </div>
+        <div class="suggestion-preview">
+          <div class="suggestion-tag">Mathematics</div>
+          <p>"Focus on Unit 4 – Integration by Parts and Definite Integrals. At least 2 questions from this unit appeared in the last 7 consecutive years."</p>
+          <div class="suggestion-meta">— ExamVault Team · 2 days ago</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PAGE: PYQ BROWSER ===== -->
+  <section class="page" id="page-pyq">
+    <div class="page-header">
+      <h2>📄 PYQ Browser</h2>
+      <p>Filter and explore previous year questions by subject, year, and topic.</p>
+    </div>
+    <div class="filter-bar card">
+      <div class="filter-group">
+        <label>Subject</label>
+        <select id="filterSubject">
+          <option value="">All Subjects</option>
+          <option>Mathematics</option>
+          <option>Physics</option>
+          <option>Chemistry</option>
+          <option>Computer Science</option>
+          <option>English</option>
+          <option>Engineering Drawing</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Year</label>
+        <select id="filterYear">
+          <option value="">All Years</option>
+          <option>2024</option><option>2023</option><option>2022</option><option>2021</option>
+          <option>2020</option><option>2019</option><option>2018</option><option>2017</option>
+          <option>2016</option><option>2015</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Type</label>
+        <select id="filterType">
+          <option value="">All Types</option>
+          <option>Short Answer</option><option>Long Answer</option><option>MCQ</option><option>Numerical</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Marks</label>
+        <select id="filterMarks">
+          <option value="">All Marks</option>
+          <option>2 Marks</option><option>5 Marks</option><option>10 Marks</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="filterPYQs()">Filter</button>
+      <button class="btn-outline" onclick="resetFilters()">Reset</button>
+    </div>
+    <div class="pyq-results-info" id="pyqResultsInfo">Showing <strong>12</strong> questions</div>
+    <div class="pyq-grid" id="pyqGrid"></div>
+  </section>
+
+  <!-- ===== PAGE: 10-YEAR ANALYSIS ===== -->
+  <section class="page" id="page-analysis">
+    <div class="page-header">
+      <h2>📊 10-Year Trend Analysis</h2>
+      <p>Visualize which topics and question types have been most frequently asked over the past decade.</p>
+    </div>
+    <div class="analysis-tabs">
+      <button class="atab active" onclick="switchAnalysisTab('frequency', this)">Topic Frequency</button>
+      <button class="atab" onclick="switchAnalysisTab('marks', this)">Marks Distribution</button>
+      <button class="atab" onclick="switchAnalysisTab('type', this)">Question Types</button>
+      <button class="atab" onclick="switchAnalysisTab('year', this)">Year-wise Trend</button>
+    </div>
+    <div class="analysis-grid">
+      <div class="card chart-card full-width">
+        <div class="card-header">
+          <h3 id="chartTitle">Topic Frequency – Mathematics (2015–2024)</h3>
+          <select id="analysisSubject" onchange="updateChart()">
+            <option>Mathematics</option><option>Physics</option>
+            <option>Chemistry</option><option>Computer Science</option>
+          </select>
+        </div>
+        <div class="chart-container">
+          <canvas id="mainChart"></canvas>
+        </div>
+      </div>
+      <div class="card insight-card">
+        <div class="insight-icon">🔥</div>
+        <div class="insight-title">Most Asked Topic</div>
+        <div class="insight-value" id="mostAsked">Integration (18 times)</div>
+        <div class="insight-sub">Appeared every year since 2015</div>
+      </div>
+      <div class="card insight-card">
+        <div class="insight-icon">📈</div>
+        <div class="insight-title">Rising Topic</div>
+        <div class="insight-value" id="risingTopic">Differential Equations</div>
+        <div class="insight-sub">+40% frequency in last 3 years</div>
+      </div>
+      <div class="card insight-card">
+        <div class="insight-icon">🎯</div>
+        <div class="insight-title">High-Yield Unit</div>
+        <div class="insight-value" id="highYield">Unit 4 – Calculus</div>
+        <div class="insight-sub">Avg. 24 marks per exam</div>
+      </div>
+      <div class="card insight-card">
+        <div class="insight-icon">⚠️</div>
+        <div class="insight-title">Declining Topic</div>
+        <div class="insight-value" id="decliningTopic">Progressions (AP/GP)</div>
+        <div class="insight-sub">Not asked since 2020</div>
+      </div>
+      <div class="card full-width">
+        <div class="card-header"><h3>Topic Heatmap (2015–2024)</h3></div>
+        <div class="heatmap-container" id="heatmapContainer"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PAGE: SUGGESTIONS ===== -->
+  <section class="page" id="page-suggestions">
+    <div class="page-header">
+      <h2>💡 Expert Suggestions</h2>
+      <p>Study tips, important topics, and exam strategies curated by our team.</p>
+    </div>
+    <div class="suggestions-filter">
+      <button class="pill-btn active" onclick="filterSuggestions('all', this)">All</button>
+      <button class="pill-btn" onclick="filterSuggestions('Mathematics', this)">Mathematics</button>
+      <button class="pill-btn" onclick="filterSuggestions('Physics', this)">Physics</button>
+      <button class="pill-btn" onclick="filterSuggestions('Chemistry', this)">Chemistry</button>
+      <button class="pill-btn" onclick="filterSuggestions('Computer Science', this)">Computer Science</button>
+      <button class="pill-btn" onclick="filterSuggestions('General', this)">General Tips</button>
+    </div>
+    <div class="suggestions-grid" id="suggestionsGrid"></div>
+  </section>
+
+  <!-- ===== PAGE: NOTES & BOOKMARKS ===== -->
+  <section class="page" id="page-notes">
+    <div class="page-header">
+      <h2>🔖 Notes & Bookmarks</h2>
+      <p>Your personal saved questions and study notes.</p>
+    </div>
+    <div class="notes-tabs">
+      <button class="ntab active" onclick="switchNotesTab('bookmarks', this)">⭐ Bookmarked Questions</button>
+      <button class="ntab" onclick="switchNotesTab('notes', this)">📝 My Notes</button>
+    </div>
+    <div id="bookmarksContent">
+      <div class="pyq-grid" id="bookmarkGrid"></div>
+    </div>
+    <div id="notesContent" style="display:none;">
+      <div class="add-note-card card">
+        <h3>➕ Add New Note</h3>
+        <div class="note-form">
+          <input type="text" id="noteTitle" placeholder="Note title…" />
+          <select id="noteSubject">
+            <option>Mathematics</option><option>Physics</option>
+            <option>Chemistry</option><option>Computer Science</option>
+          </select>
+          <textarea id="noteContent" placeholder="Write your note here…" rows="4"></textarea>
+          <button class="btn-primary" onclick="addNote()">Save Note</button>
+        </div>
+      </div>
+      <div class="notes-list" id="notesList"></div>
+    </div>
+  </section>
+
+  <!-- ===== PAGE: LEADERBOARD ===== -->
+  <section class="page" id="page-leaderboard">
+    <div class="page-header">
+      <h2>🏆 Leaderboard</h2>
+      <p>See how you rank among your peers this month.</p>
+    </div>
+    <div class="leaderboard-tabs">
+      <button class="ltab active" onclick="switchLeaderboard('weekly', this)">Weekly</button>
+      <button class="ltab" onclick="switchLeaderboard('monthly', this)">Monthly</button>
+      <button class="ltab" onclick="switchLeaderboard('alltime', this)">All Time</button>
+    </div>
+    <div class="leaderboard-wrapper">
+      <div class="your-rank-card card">
+        <div class="yr-icon">🏅</div>
+        <div class="yr-info">
+          <div class="yr-name">Your Rank: <strong>#12</strong></div>
+          <div class="yr-score">Score: 3,240 pts · 243 questions solved</div>
+        </div>
+        <div class="yr-progress-wrap">
+          <div class="yr-label">To reach #10 you need <strong>180 more pts</strong></div>
+          <div class="progress-bar-outer"><div class="progress-bar-inner" style="width:82%"></div></div>
+        </div>
+      </div>
+      <div class="leaderboard-table-wrap card">
+        <table class="leaderboard-table" id="leaderboardTable">
+          <thead>
+            <tr><th>Rank</th><th>Student</th><th>Questions Solved</th><th>Score</th><th>Badge</th></tr>
+          </thead>
+          <tbody id="leaderboardBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PAGE: SUBSCRIPTION ===== -->
+  <section class="page" id="page-subscription">
+    <div class="page-header">
+      <h2>⭐ Choose Your Plan</h2>
+      <p>Unlock the full power of ExamVault. Start free, upgrade anytime.</p>
+    </div>
+    <div class="plan-toggle-wrap">
+      <span>Monthly</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="billingToggle" onchange="toggleBilling()" />
+        <span class="toggle-knob"></span>
+      </label>
+      <span>Yearly <span class="save-tag">Save 30%</span></span>
+    </div>
+    <div class="plans-grid" id="plansGrid"></div>
+    <div class="faq-section">
+      <h3>Frequently Asked Questions</h3>
+      <div class="faq-list" id="faqList"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="questionModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('questionModal')">✕</button>
+    <div class="modal-content" id="questionModalContent"></div>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
